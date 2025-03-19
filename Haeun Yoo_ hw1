@@ -1,0 +1,123 @@
+
+#Question1
+movie <- c("The Avengers","Harry Potter", "Home Alone", "Toy Story","Frozen","The Notebook", "Interstellar")
+movie
+
+
+#Question2
+my_rating <- c(4.5, 4.8, 5.0, 3.2, 2.8, NA, 3.0)
+my_rating
+
+#Question3
+TA_rating <- c(4.3, NA, 3.8, 3.0, 2.8, NA, 1.6)
+TA_rating
+
+#Question4 팀과 평점 공유!
+my_rating
+member1_rating <- c(1.0,1.1,4.0,4.1,5.0,3.2,1.0)
+member2_rating <- c(2.0,4.1,4.0,4.1,5.0,3.2,NA)
+member3_rating <- c(3.0,3.1,NA,4.1,5.0,3.2,1.0)
+member4_rating <- c(4.0,2.1,4.0,4.1,NA,3.2,1.0)
+
+team_matrix <- matrix(c(my_rating,member1_rating,member2_rating,member3_rating,member4_rating),byrow = TRUE, nrow = 5)
+team_matrix 
+
+#Question5
+
+stu_mean <- rowMeans(team_matrix,na.rm = TRUE)
+stu_mean
+
+#Question6
+
+movie_sum <- colSums(team_matrix,na.rm = TRUE)
+movie_sum
+
+#Question7
+
+new_matrix1 <- cbind(team_matrix ,stu_mean)
+new_matrix1 
+
+
+#Question8
+new_matrix2 <- rbind(new_matrix1,movie_sum)
+new_matrix2
+
+
+#Question9
+length(new_matrix2)
+new_matrix2[nrow(new_matrix2),ncol(new_matrix2)] <- NA
+
+
+#Question 10
+student_names <- c("Haeun","Yeongnyun","Jimyeong","Hyeon","Mark","movie_sum")
+movie_names <- c("Avengers", "H.P","Home Alone", "T.S","Frozen","Notebook","Interstellar","stu_mean")
+
+colnames(new_matrix2) <- movie_names
+rownames(new_matrix2) <- student_names
+
+new_matrix2
+
+
+#Question 11
+load(url('https://github.com/hbchoi/SampleData/raw/master/country.RData'))
+
+country
+
+head(country,5)
+tail(country,5)
+
+
+
+#Question12
+country
+
+str(country)
+
+sapply(country,class)
+
+#country$life_expect <- as.factor(country$life_expect) #Levels: afg alb arg arm ...
+#country$life_expect 
+#nlevels(country$life_expect )
+#length(unique(country$life_expect))
+
+for (i in 1:length(country)){
+  ifelse(length(unique(country[[i]]))<10, country[[i]] <- as.factor(country[[i]]),country[[i]])
+}
+str(country)
+
+
+
+#Question13
+for(i in 1:length(country)){
+  if(is.factor(country[[i]])){
+    print(table(country[[i]]))
+  }
+}
+
+#Question14
+levels(country$continent) <- c('AF','AS','EU','NA','OC','SA')
+table(country$continent)
+
+#Question15
+GDP_Mean<- mean(country$GDP)
+GDP_Mean
+GDP_group <- ifelse(country$GDP>GDP_Mean,"HIGH","LOW")
+
+country$GDP
+GDP_group
+
+country <- cbind(country,GDP_group)
+country
+
+table(country$GDP_group)
+
+
+#Question16
+
+Find_continent <- function(x){
+  ifelse(x == country$continent,TRUE,FALSE)
+}
+
+Find_continent("AS")
+Find_continent("EU")
+
